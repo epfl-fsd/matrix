@@ -1,0 +1,5 @@
+- name: Deploy matrix
+  hosts: all
+  gather_facts: no
+  roles:
+    - role: roles/matrix

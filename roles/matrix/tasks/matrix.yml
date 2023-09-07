@@ -1,0 +1,14 @@
+- name: test
+  debug:
+    msg: "Test"
+
+- name: ls machine distante    
+  shell: ls
+  register: command_output_ls
+
+- name: print ls  
+  debug:
+    var: command_output_ls.stdout_lines
+
+
+

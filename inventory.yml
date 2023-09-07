@@ -1,0 +1,6 @@
+all:
+  hosts:
+    itsidevfsd0026:
+      ansible_host: itsidevfsd0026.xaas.epfl.ch
+      ansible_user: root
+      

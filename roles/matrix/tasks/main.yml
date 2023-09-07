@@ -1,0 +1,8 @@
+- name: Deploy matrix
+  include_tasks:
+    file: matrix.yml
+    apply:
+      tags:
+        - matrix
+  tags:
+    - matrix
