@@ -1,0 +1,35 @@
+- name: Create the /root/EPFL-Matrix-Dev/nginx directories
+  ansible.builtin.file:
+    path: "/root/EPFL-Matrix-Dev/{{ item }}"
+    state: directory
+    mode: '0755'
+  with_items:
+    - nginx
+    - nginx/data
+    - nginx/data/conf
+    - nginx/data/ssl
+    - nginx/well-known
+
+- name: Create the nginx default home page
+  ansible.builtin.template:
+    src: templates/nginx/index.html
+    dest: /root/EPFL-Matrix-Dev/nginx/data/index.html
+
+- name: Create the nginx configuration
+  ansible.builtin.template:
+    src: templates/nginx/default.conf
+    dest: /root/EPFL-Matrix-Dev/nginx/data/conf/default.conf
+
+- name: Create well-known folder with client / server files
+  ansible.builtin.template:
+    src: "templates/nginx/well-known/{{ item }}"
+    dest: "/root/EPFL-Matrix-Dev/nginx/well-known/matrix/{{ item }}"
+  with_items:
+    - client
+    - server
+
+- name: Create the SSL/TLS certificate
+  # https://certbot.eff.org/instructions?ws=nginx&os=ubuntufocal
+  # https://hub.docker.com/r/certbot/certbot
+  debug:
+    msg: "TODO!"

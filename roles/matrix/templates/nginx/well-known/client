@@ -1,0 +1,5 @@
+{
+  "m.homeserver": {
+    "base_url": "{{ matrix_base_url }}"
+  }
+}

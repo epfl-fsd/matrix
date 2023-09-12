@@ -6,3 +6,12 @@
         - matrix
   tags:
     - matrix
+
+- name: Deploy nginx
+  include_tasks:
+    file: nginx.yml
+    apply:
+      tags:
+        - nginx
+  tags:
+    - nginx
