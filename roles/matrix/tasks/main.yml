@@ -1,4 +1,4 @@
-- name: Deploy matrix
+- name: configure and setup matrix
   include_tasks:
     file: matrix.yml
     apply:
@@ -7,7 +7,7 @@
   tags:
     - matrix
 
-- name: Deploy nginx
+- name: configure and setup nginx
   include_tasks:
     file: nginx.yml
     apply:
@@ -15,3 +15,12 @@
         - nginx
   tags:
     - nginx
+
+- name: run the matrix stack with docker-compose
+  include_tasks:
+    file: run.yml
+    apply:
+      tags:
+        - run
+  tags:
+    - run

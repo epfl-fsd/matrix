@@ -22,3 +22,7 @@
     src: templates/config.json
     dest: "{{ matrix_stack_install_path }}/element/config.json"
 
+- name: Create the mautrix-telegram config file
+  ansible.builtin.template:
+    src: templates/mautrix-telegram.yaml
+    dest: "{{ matrix_stack_install_path }}/synapse_data/mautrix-telegram/config.yaml"
