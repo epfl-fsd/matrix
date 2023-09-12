@@ -1,0 +1,25 @@
+{
+    "default_server_config": {
+       "m.homeserver": {
+            "base_url": "{{ matrix_base_url }}"
+        }
+    },
+    "default_theme": "dark",
+    "disable_guests": true,
+    "disable_custom_urls": true,
+    "disable_3pid_login": true,
+    "default_country_code": "CH",
+    "branding": {
+        "auth_header_logo_url": "{{ logo_element }}"
+    },
+    "settingDefaults": {
+        "breadcrumbs": false,
+        "UIFeature.deactivate": false,
+        "UIFeature.registration": false,
+        "UIFeature.passwordReset": false
+    },
+    "xxxsso_redirect_options": {
+        "immediate": true,
+        "on_welcome_page": false
+    }
+}

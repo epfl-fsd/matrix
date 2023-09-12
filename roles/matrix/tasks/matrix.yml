@@ -16,3 +16,8 @@
     owner: 991
     group: 991
     mode: '0755'
+
+- name: Create the element config file
+  ansible.builtin.template:
+    src: templates/config.json
+    dest: /root/EPFL-Matrix-Dev/element/config.json

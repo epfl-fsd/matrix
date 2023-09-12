@@ -5,6 +5,7 @@ matrix_secrets: >-
 matrix_hostname: "matrix-fsd.epfl.ch"
 matrix_base_url: "https://{{ matrix_hostname }}/"
 element_base_url: "{{ matrix_base_url }}element"
+logo_element: https://web2018.epfl.ch/6.2.2/icons/epfl-logo.svg
 smtp_host: "mail.epfl.ch"
 smtp_user: "matrix-test@intranet.epfl.ch"
 smtp_pass: "{{ matrix_secrets.service_account_password }}"
