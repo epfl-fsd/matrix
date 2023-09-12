@@ -1,0 +1,73 @@
+
+- name: Start the matrix stack with docker-compose inline definition
+  community.docker.docker_compose:
+    project_name: matrix-epfl
+    definition:
+      version: '3.8'
+      services:
+        synapse:
+          container_name: matrix-synapse
+          image: matrixdotorg/synapse:latest
+          restart: always
+          environment:
+            - SYNAPSE_CONFIG_PATH=/data/homeserver.yaml
+          volumes:
+            - "{{ matrix_stack_install_path }}/synapse_data:/data"
+          ports:
+            - "8008:8008"
+            - "8448:8448"
+          depends_on:
+            - synapse_db
+
+        synapse_db:
+          container_name: matrix-db
+          image: docker.io/postgres:14-alpine
+          restart: unless-stopped
+          environment:
+            - POSTGRES_USER=synapse
+            - POSTGRES_PASSWORD="{{ db_password }}"
+            - POSTGRES_INITDB_ARGS=--encoding=UTF-8 --lc-collate=C --lc-ctype=C
+          volumes:
+            - "{{ matrix_stack_install_path }}/synapse_db_data:/var/lib/postgresql/data"
+              # Open only when needed !
+          ports:
+            - "5432:5432"
+
+        proxy:
+          container_name: matrix-proxy
+          image: nginx
+          volumes:
+            - "{{ matrix_stack_install_path }}/nginx/data/ssl:/etc/nginx/ssl"
+            - "{{ matrix_stack_install_path }}/nginx/data/conf:/etc/nginx/conf.d"
+            - "{{ matrix_stack_install_path }}/nginx/well-known:/var/www/.well-known"
+            - "{{ matrix_stack_install_path }}/nginx/index.html:/etc/nginx/html/index.html"
+          ports:
+            - "80:80"
+            - "443:443"
+
+        element_web:
+          container_name: matrix-element
+          image: vectorim/element-web
+          volumes:
+            - "{{ matrix_stack_install_path }}/element/config.json:/app/config.json"
+              #ports:
+              #- "8443:80"
+
+        tg_bridge:
+          container_name: matrix-to-telegram
+          image: dock.mau.dev/mautrix/telegram:latest
+          volumes:
+            - "{{ matrix_stack_install_path }}/synapse_data/mautrix-telegram:/data:z"
+          ports:
+            - "29317:29317" 
+  register: output
+
+- name: Show results
+  ansible.builtin.debug:
+    var: output
+
+- name: Verify that the db and web services are running
+  ansible.builtin.assert:
+    that:
+      - "output.services.synapse['matrix-synapse'].state.running"
+      - "output.services.synapse_db['matrix-db'].state.running"
