@@ -1,0 +1,21 @@
+matrix_secrets: >-
+  {{ lookup("file", "/keybase/team/epfl_matrix/matrix_secrets.yml") |
+     from_yaml }}
+
+matrix_hostname: "matrix-fsd.epfl.ch"
+matrix_base_url: "https://{{ matrix_hostname }}/"
+element_base_url: "{{ matrix_base_url }}element"
+smtp_host: "mail.epfl.ch"
+smtp_user: "matrix-test@intranet.epfl.ch"
+smtp_pass: "{{ matrix_secrets.service_account_password }}"
+db_system: "psycopg2"
+db_host: "synapse_db"
+db_name: "synapse"
+db_user: "synapse"
+db_password: "{{ matrix_secrets.synapse_db_password }}"
+sml_idp_name: "EPFL Tequila"
+sml_remote_url: "https://tequila.epfl.ch/metadata.tequila-IdP-new.xml"
+registration_shared_secret: "{{ matrix_secrets.registration_shared_secret }}"
+macaroon_secret_key: "{{ matrix_secrets.macaroon_secret_key }}"
+form_secret: "{{ matrix_secrets.form_secret }}"
+

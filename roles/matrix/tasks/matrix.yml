@@ -1,14 +1,18 @@
-- name: test
-  debug:
-    msg: "Test"
+- name: Create the /root/EPFL-Matrix-Dev if it does not exist
+  ansible.builtin.file:
+    path: "/root/EPFL-Matrix-Dev"
+    state: directory
+    mode: '0755'
 
-- name: ls machine distante    
-  shell: ls
-  register: command_output_ls
+- name: Create the homeserver config file
+  ansible.builtin.template:
+    src: templates/homeserver.yaml
+    dest: /root/EPFL-Matrix-Dev/synapse_data/homeserver.yaml
 
-- name: print ls  
-  debug:
-    var: command_output_ls.stdout_lines
-
-
-
+- name: Ensure that the media store folder is writtable by synapse
+  ansible.builtin.file:
+    path: /root/EPFL-Matrix-Dev/synapse_data/media_store
+    state: directory
+    owner: 991
+    group: 991
+    mode: '0755'
