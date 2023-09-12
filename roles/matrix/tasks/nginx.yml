@@ -1,6 +1,6 @@
-- name: Create the /root/EPFL-Matrix-Dev/nginx directories
+- name: "Create the {{ matrix_stack_install_path }}/nginx directories"
   ansible.builtin.file:
-    path: "/root/EPFL-Matrix-Dev/{{ item }}"
+    path: "{{ matrix_stack_install_path }}/{{ item }}"
     state: directory
     mode: '0755'
   with_items:
@@ -13,17 +13,17 @@
 - name: Create the nginx default home page
   ansible.builtin.template:
     src: templates/nginx/index.html
-    dest: /root/EPFL-Matrix-Dev/nginx/data/index.html
+    dest: "{{ matrix_stack_install_path }}/nginx/data/index.html"
 
 - name: Create the nginx configuration
   ansible.builtin.template:
     src: templates/nginx/default.conf
-    dest: /root/EPFL-Matrix-Dev/nginx/data/conf/default.conf
+    dest: "{{ matrix_stack_install_path}}/nginx/data/conf/default.conf"
 
 - name: Create well-known folder with client / server files
   ansible.builtin.template:
     src: "templates/nginx/well-known/{{ item }}"
-    dest: "/root/EPFL-Matrix-Dev/nginx/well-known/matrix/{{ item }}"
+    dest: "{{ matrix_stack_install_path }}/nginx/well-known/matrix/{{ item }}"
   with_items:
     - client
     - server

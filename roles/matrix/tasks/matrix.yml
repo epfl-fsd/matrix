@@ -1,17 +1,17 @@
-- name: Create the /root/EPFL-Matrix-Dev if it does not exist
+- name: "Create the {{ matrix_stack_install_path }} if it does not exist"
   ansible.builtin.file:
-    path: "/root/EPFL-Matrix-Dev"
+    path: "{{ matrix_stack_install_path }}"
     state: directory
     mode: '0755'
 
 - name: Create the homeserver config file
   ansible.builtin.template:
     src: templates/homeserver.yaml
-    dest: /root/EPFL-Matrix-Dev/synapse_data/homeserver.yaml
+    dest: "{{ matrix_stack_install_path }}/synapse_data/homeserver.yaml"
 
 - name: Ensure that the media store folder is writtable by synapse
   ansible.builtin.file:
-    path: /root/EPFL-Matrix-Dev/synapse_data/media_store
+    path: "{{ matrix_stack_install_path }}/synapse_data/media_store"
     state: directory
     owner: 991
     group: 991
@@ -20,4 +20,5 @@
 - name: Create the element config file
   ansible.builtin.template:
     src: templates/config.json
-    dest: /root/EPFL-Matrix-Dev/element/config.json
+    dest: "{{ matrix_stack_install_path }}/element/config.json"
+
